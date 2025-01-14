@@ -1,0 +1,39 @@
+<div class="equipamentos-lista">
+  <h2>Equipamentos</h2>
+
+  <!-- Botão para adicionar novo equipamento -->
+  <div class="add-button-container">
+    <button class="add-button" routerLink="/adicionar-equipamento">Adicionar Equipamento</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Setor</th>
+        <th>Usuário</th>
+        <th>Memória RAM</th>
+        <th>Armazenamento</th>
+        <th>TeamViewer ID</th>
+        <th>Sistema Operacional</th>
+        <th>Versão</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let equipamento of equipamentos">
+        <td>{{ equipamento.tipo }}</td>
+        <td>{{ equipamento.setor }}</td>
+        <td>{{ equipamento.usuario }}</td>
+        <td>{{ equipamento.memoria_ram }}</td>
+        <td>{{ equipamento.armazenamento }}</td>
+        <td>{{ equipamento.id_teamviewer }}</td>
+        <td>{{ equipamento.sistema_operacional }}</td>
+        <td>{{ equipamento.versao }}</td>
+        <td>
+          <button (click)="editarEquipamento(equipamento.id)">Editar</button>
+          <button (click)="excluirEquipamento(equipamento.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

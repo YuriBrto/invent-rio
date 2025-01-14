@@ -1,0 +1,109 @@
+/* Definição das cores e variáveis */
+$primary-color: #007bff;
+$secondary-color: #f8f9fa;
+$button-hover-color: #0056b3;
+$input-border-color: #ccc;
+$input-focus-border-color: #007bff;
+$background-color: #f4f4f4;
+$button-active-color: #004085;
+$font-color: #333;
+
+/* Estilos principais */
+.equipamento-adicionar {
+  background-color: $secondary-color;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 40px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: $primary-color;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  form {
+    display: grid;
+    gap: 20px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: $font-color;
+      }
+
+      select, input {
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid $input-border-color;
+        outline: none;
+        transition: border 0.3s ease;
+
+        &:focus {
+          border-color: $input-focus-border-color;
+        }
+
+        &::placeholder {
+          color: #888;
+        }
+      }
+    }
+
+    button[type="submit"] {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: $button-hover-color;
+      }
+
+      &:active {
+        background-color: $button-active-color;
+      }
+    }
+  }
+
+  /* Container para o botão de voltar */
+  .add-button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+
+    .add-button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #5a6268;
+      }
+
+      &:active {
+        background-color: #4e555b;
+      }
+    }
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    padding: 20px;
+    margin: 20px;
+  }
+}
