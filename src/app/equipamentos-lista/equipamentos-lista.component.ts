@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class EquipamentosListaComponent implements OnInit {
   equipamentos: any[] = [];
-
+  contagem: { notebooks: number; desktops: number } = { notebooks: 0, desktops: 0 };
   constructor(
     private inventarioService: InventarioService,
     private router: Router // Injetando o serviço Router
@@ -18,6 +18,7 @@ export class EquipamentosListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.obterEquipamentos();
+    this.carregarContagem();
   }
 
   obterEquipamentos(): void {
@@ -51,4 +52,14 @@ export class EquipamentosListaComponent implements OnInit {
       }
     );
   }
+  carregarContagem(): void {
+    this.inventarioService.getContagem().subscribe({
+        next: (data) => {
+            this.contagem = data;
+        },
+        error: (error) => {
+            console.error('Erro ao carregar contagem', error);
+        }
+    });
+}
 }

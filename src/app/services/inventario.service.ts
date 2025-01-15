@@ -32,5 +32,7 @@ export class InventarioService {
   getEquipamentoById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
-
+  getContagem(): Observable<{ notebooks: number; desktops: number }> {
+    return this.http.get<{ notebooks: number; desktops: number }>(`${this.apiUrl}/equipamentos/contagem`);
+}
 }
