@@ -33,17 +33,34 @@ router.get('/equipamentos/:id', (req, res) => {
   });
 });
 
+
 // Rota POST para adicionar um novo equipamento
 router.post('/equipamentos', (req, res) => {
-  const { tipo, setor, usuario, memoria_ram, armazenamento, id_teamviewer, sistema_operacional, versao } = req.body;
+  const {
+    tipo,
+    setor,
+    usuario,
+    memoria_ram,
+    armazenamento,
+    id_teamviewer,
+    sistema_operacional,
+    versao,
+  } = req.body;
+
+  // Padronizar o tipo para minúsculas
+  const tipoFormatado = tipo.toLowerCase();
+
   pool.query(
     'INSERT INTO equipamentos (tipo, setor, usuario, memoria_ram, armazenamento, id_teamviewer, sistema_operacional, versao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-    [tipo, setor, usuario, memoria_ram, armazenamento, id_teamviewer, sistema_operacional, versao],
+    [tipoFormatado, setor, usuario, memoria_ram, armazenamento, id_teamviewer, sistema_operacional, versao],
     (error, results) => {
       if (error) {
-        return res.status(500).send(error);
+        console.error('Erro ao adicionar equipamento:', error);
+        return res.status(500).send('Erro ao adicionar o equipamento');
       }
-      res.status(201).json(results.rows[0]);  // Retorna o equipamento recém-adicionado
+
+      // Retorna o equipamento recém-adicionado
+      res.status(201).json(results.rows[0]);
     }
   );
 });
@@ -88,5 +105,37 @@ router.delete('/equipamentos/:id', (req, res) => {
     res.json({ message: 'Equipamento excluído com sucesso', equipamento: result.rows[0] });
   });
 });
+
+router.get('/equipamentos/contagem', (req, res) => {
+  pool.query(
+    `SELECT tipo, COUNT(*)::int as count
+     FROM equipamentos
+     WHERE tipo = 'notebook' OR tipo = 'desktop'
+     GROUP BY tipo`,
+    (err, result) => {
+      if (err) {
+        console.error('Erro ao consultar a contagem de equipamentos:', err);
+        return res.status(500).json({ error: 'Erro ao obter a contagem.' });
+      }
+
+      // Inicializando os contadores
+      const count = { notebooks: 0, desktops: 0 };
+
+      // Percorrendo os resultados para preencher a contagem de notebooks e desktops
+      result.rows.forEach(row => {
+        if (row.tipo === 'notebook') {
+          count.notebooks = row.count;
+        }
+        if (row.tipo === 'desktop') {
+          count.desktops = row.count;
+        }
+      });
+
+      // Retorna o total de notebooks e desktops
+      res.json(count);
+    }
+  );
+});
+
 
 module.exports = router;
